@@ -22,6 +22,15 @@ With GCC, expose `wild` as `ld` in a directory passed via `-B`:
     mkdir -p /tmp/wild-bin && ln -sf "$PWD/target/release/wild" /tmp/wild-bin/ld
     gcc -B/tmp/wild-bin hello.c -o hello
 
+## Test
+
+The upstream test suite is not part of this repository. What is here is a smoke test that links
+several small C programs with `wild` and with the system linker and compares what the resulting
+binaries print:
+
+    cargo build --release -p wild-linker
+    ./ci/smoke-test.sh
+
 Source and issue tracker: https://github.com/wild-linker/wild
 
 ## License
