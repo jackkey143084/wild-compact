@@ -97,6 +97,26 @@ check "shared library" "$work/main.o" -L"$work" -lhelpers
 
 check "static executable" -static "$work/main.o" "$work/greet.o" "$work/count.o"
 
+if command -v clang > /dev/null; then
+  rm -f "$work/prog-wild" "$work/prog-system"
+  if clang "--ld-path=$wild_bin" "$work/main.c" "$work/greet.c" "$work/count.c" -o "$work/prog-wild" \
+      > "$work/wild-link.log" 2>&1; then
+    clang "$work/main.c" "$work/greet.c" "$work/count.c" -o "$work/prog-system" > /dev/null 2>&1
+    if [ "$("$work/prog-wild" 2>&1)" = "$("$work/prog-system" 2>&1)" ]; then
+      echo "ok   clang --ld-path"
+    else
+      echo "FAIL clang --ld-path: output differs from the system linker"
+      failures=$((failures + 1))
+    fi
+  else
+    echo "FAIL clang --ld-path: wild failed to link"
+    sed 's/^/    /' "$work/wild-link.log"
+    failures=$((failures + 1))
+  fi
+else
+  echo "skip clang --ld-path (clang not installed)"
+fi
+
 if [ "$failures" -ne 0 ]; then
   echo "$failures smoke test(s) failed"
   exit 1

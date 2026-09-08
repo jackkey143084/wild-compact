@@ -13,9 +13,14 @@ The optimized distribution profile is available with `cargo build --profile dist
 
 ## Use
 
-With Clang, put `wild` on your PATH and select it by name:
+With Clang, either point at the binary directly:
 
-    clang -fuse-ld=wild hello.c -o hello
+    clang --ld-path="$PWD/target/release/wild" hello.c -o hello
+
+or put it on your PATH under the name Clang looks for:
+
+    mkdir -p /tmp/wild-bin && ln -sf "$PWD/target/release/wild" /tmp/wild-bin/ld.wild
+    PATH=/tmp/wild-bin:$PATH clang -fuse-ld=wild hello.c -o hello
 
 With GCC, expose `wild` as `ld` in a directory passed via `-B`:
 
