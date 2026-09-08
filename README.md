@@ -6,8 +6,8 @@ Wild is a fast, incremental linker for Linux. It is distributed as the `wild` bi
 
     cargo build --release -p wild-linker
 
-The toolchain is pinned by `rust-toolchain.toml`; rustup installs it automatically. The binary is
-written to `target/release/wild`.
+Requires Rust 1.97.1 or newer (the workspace is edition 2024); run `rustup update stable` if your
+toolchain is older. The binary is written to `target/release/wild`.
 
 The optimized distribution profile is available with `cargo build --profile dist -p wild-linker`.
 
