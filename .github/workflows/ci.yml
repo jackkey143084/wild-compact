@@ -36,6 +36,20 @@ jobs:
       - run: cargo build --profile ci --workspace
       - run: cargo build --profile ci --workspace --no-default-features
 
+  unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      # The tidy tests are skipped: `check_sources_format` reads `wild/tests/sources`, which isn't
+      # part of this repository, and `check_toml_format` shells out to taplo.
+      - run: cargo test --profile ci --workspace -- --skip tidy_tests::check_sources_format --skip tidy_tests::check_toml_format
+
   smoke-test:
     name: Smoke test
     runs-on: ubuntu-24.04

@@ -56,6 +56,7 @@ check() {
   shift
   local wild_out system_out
 
+  rm -f "$work/prog-wild" "$work/prog-system"
   if ! gcc "-B$work/wild-bin" "$@" -o "$work/prog-wild" > "$work/wild-link.log" 2>&1; then
     echo "FAIL $name: wild failed to link"
     sed 's/^/    /' "$work/wild-link.log"
