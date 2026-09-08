@@ -1,0 +1,13 @@
+[default.extend-words]
+flate = "flate"
+rela = "rela"
+ot = "ot"
+FRE = "FRE"
+aranges = "aranges"
+
+[files]
+extend-exclude = ["external_test_suites", "wild/tests/bins"]
+
+[type.external-test-list]
+extend-glob = ["*_skip_tests.toml"]
+extend-ignore-re = ['(?m)^\s*tests\s*=\s*\[[^\]]*\]\s*$']
