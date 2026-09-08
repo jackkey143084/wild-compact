@@ -6,13 +6,21 @@ Wild is a fast, incremental linker for Linux. It is distributed as the `wild` bi
 
     cargo build --release -p wild-linker
 
+Requires Rust 1.97.1 or newer (the workspace is edition 2024); run `rustup update stable` if your
+toolchain is older. The binary is written to `target/release/wild`.
+
 The optimized distribution profile is available with `cargo build --profile dist -p wild-linker`.
 
 ## Use
 
-Put `wild` on your PATH and select it through Clang:
+With Clang, put `wild` on your PATH and select it by name:
 
     clang -fuse-ld=wild hello.c -o hello
+
+With GCC, expose `wild` as `ld` in a directory passed via `-B`:
+
+    mkdir -p /tmp/wild-bin && ln -sf "$PWD/target/release/wild" /tmp/wild-bin/ld
+    gcc -B/tmp/wild-bin hello.c -o hello
 
 Source and issue tracker: https://github.com/wild-linker/wild
 
